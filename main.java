@@ -3,18 +3,18 @@ public class main {
 
 	public static void main(String[] args) {
 		
-		int p=5;
+		int p=1000;
 		System.out.println("Voici les options disponibles :");
 		System.out.println("################");
 		System.out.println("0-Quitter.");
 		System.out.println("################");
-		System.out.println("1-Lecture des fichiers par défaut.");
+		System.out.println("1-Lecture des fichiers par dÃ©faut.");
 		System.out.println("################");
-		System.out.println("2-Lecture de fichier spécifique.");
+		System.out.println("2-Lecture de fichier spÃ©cifique.");
 		System.out.println("################");
-		System.out.println("3-Répartir les étudiants dans les TD.");
+		System.out.println("3-RÃ©partir les Ã©tudiants dans les TD.");
 		System.out.println("################");
-		System.out.println("4-Changer la capacité des TD.");
+		System.out.println("4-Changer la capacitÃ© des TD.");
 		System.out.println("################");
 		System.out.println("################");
 		
