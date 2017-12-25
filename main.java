@@ -1,9 +1,10 @@
+import java.util.ArrayList;
 
 public class main {
 
 	public static void main(String[] args) {
 		
-		int p=1000;
+		/*int p=1;
 		System.out.println("Voici les options disponibles :");
 		System.out.println("################");
 		System.out.println("0-Quitter.");
@@ -37,7 +38,10 @@ public class main {
 				
 			}
 			
-		}
+		}*/
+		ReaderCSV reader = new ReaderCSV("F:\\Users\\Vincent\\Desktop\\ProjetJava\\etu.csv","lol");
+		reader.read();
+
 	}
 
 }
