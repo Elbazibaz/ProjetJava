@@ -13,22 +13,24 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class ReaderCSV {
-        String line;
-        String sep;
-        String edt;
-        String etu;
+        private String line;
+        private String sep;
+        private String edtfile;
+        private String etufile;
+        public Map <Integer, ArrayList<String>> etulist;
+        public ArrayList<ArrayList<String>> liste_etudiants; // correspond a une liste de listes de matières
 
         public ReaderCSV(String s1,String s2) {
             line=null;
             sep=";";
-            edt=s2;
-            etu=s1;
+            edtfile=s1;
+            etufile=s2;
+            etulist = new HashMap<Integer, ArrayList<String> >();
         }
-        public void read() {
+        public void readEtu() {
             String[] tab ;
-            Map <Integer, ArrayList<String>> etulist = new HashMap<Integer, ArrayList<String> >();
             try {
-                BufferedReader in= new BufferedReader(new FileReader(this.etu));
+                BufferedReader in= new BufferedReader(new FileReader(etufile));
 
                 line=in.readLine();
                 String [] matieres=line.split(";",-1);
@@ -45,6 +47,10 @@ public class ReaderCSV {
                     }
                     line=in.readLine();
                 }
+                liste_etudiants = new ArrayList<ArrayList<String>>();
+                for (ArrayList<String> value : etulist.values()) {
+                    liste_etudiants.add(value);}
+
             }
             catch(FileNotFoundException e) {
                 e.printStackTrace();
@@ -53,7 +59,6 @@ public class ReaderCSV {
             catch(IOException e) {
                 e.printStackTrace();
             }
-
+            }
         }
 
-}

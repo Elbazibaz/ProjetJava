@@ -43,7 +43,7 @@ public class ReaderEdtCSV {
 				
 				line=in.readLine();			}
 			//appel objet constructeur etudiant
-			// On peut retourner une liste d'etudiants et une structure modélisant l
+			// On peut retourner une liste d'etudiants et une structure modlisant l
 			//l'emploi du temps
 			
 		}

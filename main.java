@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class main {
 
 	public static void main(String[] args) {
-		
-		/*int p=1;
+
+		int p = 1;
 		System.out.println("Voici les options disponibles :");
 		System.out.println("################");
 		System.out.println("0-Quitter.");
@@ -18,13 +18,28 @@ public class main {
 		System.out.println("4-Changer la capacité des TD.");
 		System.out.println("################");
 		System.out.println("################");
-		
-		while(p!=0) {
+
+
+		ReaderCSV reader = new ReaderCSV("lol", "F:\\Users\\Vincent\\Desktop\\ProjetJava\\etu.csv");
+		reader.readEtu();
+		ArrayList<ArrayList<String>> liste_brute = new ArrayList<ArrayList<String>>();
+		liste_brute = reader.liste_etudiants;
+		/*TEST TD td_0= new TD(0);
+		for (ArrayList<String> value : liste_brute) {
+			Etudiant etudiant = new Etudiant(liste_brute.indexOf(value),value);
+			td_0.liste.add(etudiant);
+			System.out.println(value);}
+		}
+		*/
+
+
+
+		/*while(p!=0) {
 			
 			
 			switch (p) {
 			case 1 :
-			
+
 				break;
 			case 2 :
 				
@@ -39,9 +54,6 @@ public class main {
 			}
 			
 		}*/
-		ReaderCSV reader = new ReaderCSV("F:\\Users\\Vincent\\Desktop\\ProjetJava\\etu.csv","lol");
-		reader.read();
 
-	}
 
-}
+	}}
