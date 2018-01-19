@@ -20,21 +20,29 @@ import java.util.Map.Entry;
  *
  */
 public class ReaderCSV {
-        String line;
-        String sep;
-        String edt;
-        String etu;
+       private String line;
+       private String sep;
+       private String edt;
+       private String etu;
+       private ArrayList<String> listeCours;
+       private Map<Integer,ArrayList<String>> etudiants;
+       private ArrayList<Créneau> EDT;
         public ReaderCSV() {
         		line=null;
         		sep=";";
         		edt="edt.csv";
         		etu="etu.csv";
+        		listeCours=new ArrayList<>();
+        		etudiants=this.read();
+        		EDT=this.readEDT();
         }
         public ReaderCSV(String s1,String s2) {
             line=null;
             sep=";";
             edt=s2;
             etu=s1;
+            etudiants=this.read();
+            EDT=this.readEDT();
         }
         /**
          * Cette méthode permet l'extraction du fichier étudiants et regroupe toutes les informations dans une 
@@ -49,11 +57,11 @@ public class ReaderCSV {
         public Map<Integer,ArrayList<String>> read() {
             String[] tab ;
             Map <Integer, ArrayList<String>> etulist = new HashMap<>();
-            try {
-                BufferedReader in= new BufferedReader(new FileReader(this.etu));
+            try(BufferedReader in= new BufferedReader(new FileReader(this.etu))) {
 
                 line=in.readLine();
                 String [] matieres=line.split(";",-1);
+                for(int j=0;j<matieres.length;j++)matieres[j].toLowerCase();
                 line=in.readLine();
                 while(line!=null) {
                     ArrayList<String> etumatieres = new ArrayList<String>();
@@ -67,10 +75,10 @@ public class ReaderCSV {
                     }
                     line=in.readLine();
                 }
-                for(Map.Entry<Integer,ArrayList<String>> paires : etulist.entrySet()) {
-                		ArrayList<String> parcours=paires.getValue();
-                		System.out.println(parcours.toString());
-                }
+               // for(Map.Entry<Integer,ArrayList<String>> paires : etulist.entrySet()) {
+                	//	ArrayList<String> parcours=paires.getValue();
+                //		System.out.println(parcours.toString());
+                //}
                 in.close();
             }
             catch(NumberFormatException e) {
@@ -108,18 +116,18 @@ public class ReaderCSV {
     	       String tab2[];
     	       String tab3[];
     	       ArrayList<Créneau> listedt=new ArrayList<>();
-    	       try {
-	           BufferedReader in= new BufferedReader(new FileReader(this.edt));
+    	       try(BufferedReader in= new BufferedReader(new FileReader(this.edt))) {
 	           line=in.readLine();
 	           line=in.readLine();
 	           while(line!=null) {
 	        	   		tab2=null;
 	        	   		tab3=null;
-	        	   		tab=line.split(";",-1); // tableau avec les créneaux de lundi à vendredi
+	        	   		tab=line.split(";",-1);
+	        	   		for(int k=0;tab.length<k;k++)tab[k].toLowerCase();
 	        	   		for(int i=0;i<tab.length;i++) {
 	        	   			//System.out.println(tab[i]);
 	        	   			tab2=tab[i].split(" ",-1);
-	        	   			System.out.println(tab.length);
+	        	   			//System.out.println(tab.length);
 	        	   			// tableau de cours d'un créneau
 	        	   			// 
 	        	   			if(tab2.length>0 && !tab[i].isEmpty())listedt.add(new Créneau()); // créer des créneaux en trop
@@ -127,14 +135,26 @@ public class ReaderCSV {
 	        	   				tab3=null;
 	        	   				tab3=tab2[j].split("_",-1); // tableau cours + underscore normalement 2 éléments
 	        	   				
-	        	   				if(tab2[j].contains("_"))listedt.get(listedt.size()-1).get_creneau().add(new Cours(tab3[0],Integer.parseInt(tab3[1])));
-	        	   				else if(tab3[0]!=null &&!tab3[0].isEmpty())listedt.get(listedt.size()-1).get_creneau().add(new Cours(tab3[0],true));
+	        	   				if(tab2[j].contains("_"))listedt.get(listedt.size()-1).get_creneau().add(new TD(tab3[0],Integer.parseInt(tab3[1])));
+	        	   				else if(tab3[0]!=null &&!tab3[0].isEmpty())listedt.get(listedt.size()-1).get_creneau().add(new Amphi(tab3[0]));
 	        	   			}
 	        	   		}
 	        	   		line=in.readLine();
 	           }
-	           in.close();
+	           
+    	       // Création de la liste de cours pour le fichier sortie
+            for(Créneau c:listedt) {
+    	    			for(Cours cours:c.get_creneau()) {
+	    	    			if(cours instanceof Amphi)listeCours.add(cours.get_Name());
+	    	    			if(cours instanceof TD) {
+	    	    				listeCours.add(cours.get_Name().concat("_"+((TD) cours).get_NumTD()));
+	    	    			}
+    	    			}
+    	       	}
     	       }
+    	       
+    	       
+    	       
     	    catch(ArrayIndexOutOfBoundsException e) {
     	    	   e.printStackTrace();
     	    	   System.out.println("Le format du fichier emploi du temps n'est pas valide");
@@ -146,7 +166,17 @@ public class ReaderCSV {
     	    catch(IOException e) {
     	    	e.printStackTrace();
     	    }	
-    	   	return listedt ; // gestion finally pour les deux entrées
+    	       return listedt ; 
+       }
+       
+       public Map<Integer,ArrayList<String>> get_etudiants(){
+    	   		return this.etudiants;
+       }
+       public ArrayList<Créneau> get_EDT(){
+    	   		return this.EDT;
+       }
+       public ArrayList<String> get_listeCours(){
+    	   		return this.listeCours;
        }
 
 }

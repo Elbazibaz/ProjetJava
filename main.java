@@ -3,9 +3,9 @@ import java.util.Scanner;
 
 public class main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ConflitCreneauException, LimiteNbrEtuException {
 		
-		int p=1;
+		/*int p=1;
 		System.out.println("Voici les options disponibles :");
 		System.out.println("################");
 		System.out.println("0-Quitter.");
@@ -23,10 +23,10 @@ public class main {
 		p=scan.nextInt();
 		while(p!=0) {
 			p=scan.nextInt();
-			
+			ReaderCSV reader = new ReaderCSV();
 			switch (p) {
 			case 1 :
-				ReaderCSV reader = new ReaderCSV();
+				reader.read();
 				break;
 			case 2 :
 				Scanner scanfich=new Scanner(System.in);
@@ -38,21 +38,34 @@ public class main {
 				ReaderCSV reader = new ReaderCSV();
 				break;
 			case 3 :
-				
+				Gestionnaire gestionnaire=new Gestionnaire(reader.get_etudiants(),reader.get_EDT());
+				gestionnaire.Assignation
 				break;
 			case 4 :
-				
+			
+				Scanner scanlimite=new Scanner(System.in);
+				gestionnaire.set_LimiteEtu(scan.nextInt()),reader.get_listeCours());
 				break;
-			default :
-				System.out.println("Veuillez")
+
 			}
 			
 		}
-		
+		*/
+		try {
 		ReaderCSV reader = new ReaderCSV();
 		reader.read();
-		ArrayList<Créneau> edt=reader.readEDT();
-		for(Créneau c:edt)c.Afficher();
+		Gestionnaire gestionnaire=new Gestionnaire(reader.get_etudiants(),reader.get_EDT());
+		gestionnaire.sortie_TDS(gestionnaire.Assignation(),reader.get_listeCours());
+		//for(Créneau c:edt)c.Afficher();
+		}
+		catch(ConflitCreneauException e) {
+			e.printStackTrace();
+			System.out.println("creneau");
+		}
+		catch(LimiteNbrEtuException e) {
+			e.printStackTrace();
+			System.out.println("limite");
+		}
 		
 	}
 
